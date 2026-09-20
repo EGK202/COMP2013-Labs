@@ -3,6 +3,37 @@
 //Create an interface Listing that will represent an object
 //from the listings array below to resolve the type error.
 
+interface Listing{
+  id:string;
+  price: string;
+  address:string;
+  postalCode:string;
+  MLSnumber:string;
+  photo:string;
+  description:string;
+  propertySummary:{
+      propertyType: string;
+      buildingType: string;
+      storeys: string;
+      title: string;
+      builtIn: string;
+      taxes: string;
+      parking: string;
+  };
+    buildingSummary: {
+      bedrooms: string;
+      bathrooms: string;
+      buildingFeatures: string[];
+      cooling: string;
+      heating: string;
+      sewer: string;
+      water: string;
+      size: string;
+    };
+    //Optional
+    isSold?:boolean;
+    currentOwner?:string;
+}
 const listings: Listing[] = [
   {
     id: "10100",
@@ -481,7 +512,7 @@ const listings: Listing[] = [
  * from the array above
  */
 //WRITE YOUR CODE BELOW
-
+let listing0:Listing=listings[0];
 /**
  * Task-3:
  * Create an object named listing0Updated of type Listing
@@ -494,7 +525,11 @@ const listings: Listing[] = [
  * Make sure to add them as OPTIONAL properties
  */
 //WRITE YOUR CODE BELOW
-
+const listing0Updated: Listing={
+  ...listing0,
+  isSold:false,
+  currentOwner:"Jane Doe",
+};
 /**
  * NOTE: THIS TASK IS TRICKY!
  * Task-4:
@@ -511,6 +546,13 @@ const listings: Listing[] = [
  * AND CHECK parseInt() to help changing quantifiable strings to numbers
  */
 //WRITE YOUR CODE BELOW
+function realtorFees(listing:Listing):number{
+  const price=parseInt(
+    listing.price.replace("$","")
+  );
+  const rate= price<=450000?0.025:0.02;
+return price*rate;
+}
 
 /**
  * Task-5:
@@ -518,7 +560,11 @@ const listings: Listing[] = [
  * according to their built year
  */
 //WRITE YOUR CODE BELOW
-
+const listingAscendingly:Listing[]=[...listings].sort(
+  (a,b)=>
+    parseInt(a.propertySummary.builtIn) -
+  parseInt(b.propertySummary.builtIn)
+);
 /**
  * Task-6:
  * Filter all the listings by houseType
@@ -527,3 +573,6 @@ const listings: Listing[] = [
  * This array should result in two listings only
  */
 //WRITE YOUR CODE BELOW
+const townhouseListings:Listing[]=listings.filter(
+  listing=>listing.propertySummary.builingType==="Townhouse"
+);
